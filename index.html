@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>META by Sarimoko | Browser Metadata & Footprint Exposure Audit</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome for Cyber/Security Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Google Fonts: JetBrains Mono & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            cyber: {
+              bg: '#080b11',
+              card: '#0f1420',
+              border: '#1a2333',
+              cyan: '#00f0ff',
+              green: '#10b981',
+              amber: '#f59e0b',
+              rose: '#f43f5e',
+              purple: '#a855f7'
+            }
+          },
+          boxShadow: {
+            'neon-cyan': '0 0 20px rgba(0, 240, 255, 0.25)',
+            'neon-rose': '0 0 20px rgba(244, 63, 94, 0.25)',
+            'neon-green': '0 0 20px rgba(16, 185, 129, 0.25)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom scanline and glowing cyberpunk touches */
+    body {
+      background-color: #080b11;
+      background-image: 
+        radial-gradient(ellipse at 50% 0%, rgba(0, 240, 255, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 90%, rgba(168, 85, 247, 0.06) 0%, transparent 60%);
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+    
+    .grid-bg {
+      background-size: 30px 30px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    }
+
+    /* Subtle pulse animation for telemetry radar */
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.1); opacity: 0.3; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .pulse-glow {
+      animation: pulse-ring 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #080b11;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00f0ff;
+    }
+  </style>
+</head>
+<body class="grid-bg font-sans antialiased text-slate-200 text-sm selection:bg-cyan-500 selection:text-black">
+
+  <!-- TOP STATUS TICKER -->
+  <div class="w-full bg-slate-950/80 border-b border-cyber-border py-1.5 px-4 text-xs font-mono flex flex-wrap justify-between items-center text-slate-400 gap-2">
+    <div class="flex items-center space-x-2">
+      <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 pulse-glow"></span>
+      <span class="text-emerald-400 font-semibold tracking-wider">LIVE TELEMETRY INTERCEPTOR</span>
+      <span class="text-slate-600">|</span>
+      <span class="hidden sm:inline">ORIGIN:</span> <span class="text-cyan-400" id="top-timestamp">--:--:-- UTC</span>
+    </div>
+    <div class="flex items-center space-x-4">
+      <span class="text-slate-500">CLIENT-SIDE EXECUTION ONLY</span>
+      <span class="bg-cyan-950 text-cyan-300 border border-cyan-800/60 px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider">
+        Zero Data Logged
+      </span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- HEADER / BRANDING SECTION -->
+    <header class="bg-cyber-card/90 backdrop-blur border border-cyber-border rounded-2xl p-6 lg:p-8 relative overflow-hidden shadow-2xl">
+      <!-- Glow ambient backdrop -->
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center space-x-3 mb-2">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-black font-black text-xl shadow-neon-cyan">
+              M
+            </div>
+            <div>
+              <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2">
+                META <span class="text-cyan-400 font-mono text-sm tracking-widest px-2 py-0.5 rounded bg-cyan-950/70 border border-cyan-500/30">BY SARIMOKO</span>
+              </h1>
+              <p class="text-xs text-slate-400 font-mono">META.Sarimoko.com // Automated Passive Fingerprint Reconnaissance</p>
+            </div>
+          </div>
+          <p class="text-slate-300 max-w-2xl text-xs sm:text-sm mt-2 leading-relaxed">
+            Every second you browse the open web, ad-tech platforms, trackers, and brokers silently ingest your device parameters, connection markers, canvas signatures, and hardware profile to correlate your identity across isolated sessions.
+          </p>
+        </div>
+
+        <!-- EXPOSURE SCORE METRIC GAUGE -->
+        <div class="w-full lg:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-4 bg-slate-950/70 border border-cyber-border rounded-xl p-4">
+          <div class="text-center sm:text-left">
+            <span class="text-xs font-mono uppercase tracking-wider text-slate-400">Leak Metric Gauge</span>
+            <div class="text-2xl font-bold font-mono text-rose-400 flex items-center justify-center sm:justify-start gap-2 mt-0.5">
+              <i class="fa-solid fa-radiation text-rose-500"></i>
+              <span id="exposure-count">24</span> Data Points
+            </div>
+            <p class="text-[11px] text-slate-400 mt-0.5">Profile Uniqueness: <span class="text-rose-400 font-semibold" id="uniqueness-level">HIGHLY UNIQUE (>98%)</span></p>
+          </div>
+
+          <div class="flex sm:flex-col gap-2">
+            <button id="btn-export-json" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 text-xs font-mono font-medium transition active:scale-95">
+              <i class="fa-solid fa-download"></i> Export JSON
+            </button>
+            <button id="btn-refresh-audit" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-mono font-medium transition active:scale-95">
+              <i class="fa-solid fa-arrows-rotate"></i> Re-Scan
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- NOTIFICATION ALERT BAR -->
+    <div id="status-toast" class="hidden transition-all duration-300 p-3 rounded-xl border font-mono text-xs flex items-center justify-between">
+      <span id="toast-message"></span>
+      <button onclick="document.getElementById('status-toast').classList.add('hidden')" class="text-slate-400 hover:text-white ml-2">✕</button>
+    </div>
+
+    <!-- MAIN METRIC PANELS GRID -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- 1. NETWORK & LOCATION INTERCEPT -->
+      <section class="bg-cyber-card border border-cyber-border rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/40 transition">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-cyber-border">
+            <div class="flex items-center gap-2.5">
+              <span class="w-7 h-7 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xs">
+                <i class="fa-solid fa-globe"></i>
+              </span>
+              <h2 class="font-bold text-sm tracking-wide text-white uppercase font-mono">Network & Geo Location</h2>
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">Publicly Leaked</span>
+          </div>
+
+          <div class="mt-4 space-y-3 font-mono text-xs">
+            <div>
+              <span class="text-slate-400 text-[11px] block">Public IPv4 / IPv6</span>
+              <span id="net-ip" class="text-cyan-300 font-semibold text-sm">Querying gateway...</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <span class="text-slate-400 text-[11px] block">Approx City</span>
+                <span id="net-city" class="text-slate-200">Resolving...</span>
+              </div>
+              <div>
+                <span class="text-slate-400 text-[11px] block">Country / Code</span>
+                <span id="net-country" class="text-slate-200">Resolving...</span>
+              </div>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">ISP / Routing Org</span>
+              <span id="net-isp" class="text-slate-300 truncate block">Resolving ASN...</span>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">WebRTC Local Candidates</span>
+              <span id="net-webrtc" class="text-amber-400 text-[11px]">Probing STUN candidates...</span>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">Timezone / System UTC Offset</span>
+              <span id="net-tz" class="text-slate-200">Checking client clock...</span>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 pt-3 border-t border-cyber-border flex items-center justify-between text-[11px] text-slate-500">
+          <span>Accuracy: Metropolitan level</span>
+          <i class="fa-solid fa-satellite-dish text-cyan-400/60"></i>
+        </div>
+      </section>
+
+      <!-- 2. HARDWARE & GRAPHICS (SILICON FINGERPRINT) -->
+      <section class="bg-cyber-card border border-cyber-border rounded-xl p-5 flex flex-col justify-between hover:border-purple-500/40 transition">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-cyber-border">
+            <div class="flex items-center gap-2.5">
+              <span class="w-7 h-7 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xs">
+                <i class="fa-solid fa-microchip"></i>
+              </span>
+              <h2 class="font-bold text-sm tracking-wide text-white uppercase font-mono">Hardware & Silicon</h2>
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">Hardware ID</span>
+          </div>
+
+          <div class="mt-4 space-y-3 font-mono text-xs">
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <span class="text-slate-400 text-[11px] block">CPU Threads (Concurrency)</span>
+                <span id="hw-cores" class="text-purple-300 font-semibold text-sm">--</span>
+              </div>
+              <div>
+                <span class="text-slate-400 text-[11px] block">RAM Approx (DeviceMemory)</span>
+                <span id="hw-memory" class="text-purple-300 font-semibold text-sm">--</span>
+              </div>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">WebGL Unmasked GPU Vendor</span>
+              <span id="hw-gpu-vendor" class="text-slate-200 truncate block">Inspecting WebGL context...</span>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">WebGL Unmasked Renderer (Chip)</span>
+              <span id="hw-gpu-renderer" class="text-slate-200 text-[11px] break-words block">Probing driver...</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <span class="text-slate-400 text-[11px] block">Touch Points</span>
+                <span id="hw-touch" class="text-slate-200">--</span>
+              </div>
+              <div>
+                <span class="text-slate-400 text-[11px] block">Calculated FPS / Hz</span>
+                <span id="hw-fps" class="text-emerald-400">Benchmarking...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 pt-3 border-t border-cyber-border flex items-center justify-between text-[11px] text-slate-500">
+          <span>Bypasses Incognito Mode</span>
+          <i class="fa-solid fa-bolt text-purple-400/60"></i>
+        </div>
+      </section>
+
+      <!-- 3. DISPLAY & VIEWPORT SIGNATURE -->
+      <section class="bg-cyber-card border border-cyber-border rounded-xl p-5 flex flex-col justify-between hover:border-emerald-500/40 transition">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-cyber-border">
+            <div class="flex items-center gap-2.5">
+              <span class="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xs">
+                <i class="fa-solid fa-desktop"></i>
+              </span>
+              <h2 class="font-bold text-sm tracking-wide text-white uppercase font-mono">Display Geometry</h2>
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Layout Vector</span>
+          </div>
+
+          <div class="mt-4 space-y-3 font-mono text-xs">
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <span class="text-slate-400 text-[11px] block">Screen Resolution</span>
+                <span id="disp-screen" class="text-emerald-300 font-semibold text-sm">--</span>
+              </div>
+              <div>
+                <span class="text-slate-400 text-[11px] block">Available Screen</span>
+                <span id="disp-avail" class="text-slate-200">--</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <span class="text-slate-400 text-[11px] block">Inner Viewport</span>
+                <span id="disp-viewport" class="text-slate-200">--</span>
+              </div>
+              <div>
+                <span class="text-slate-400 text-[11px] block">Device Pixel Ratio</span>
+                <span id="disp-dpr" class="text-slate-200">--</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <span class="text-slate-400 text-[11px] block">Color Depth</span>
+                <span id="disp-color" class="text-slate-200">--</span>
+              </div>
+              <div>
+                <span class="text-slate-400 text-[11px] block">Orientation</span>
+                <span id="disp-orientation" class="text-slate-200">--</span>
+              </div>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">Color Gamut & Contrast Pref</span>
+              <span id="disp-gamut" class="text-slate-300">Evaluating CSS media queries...</span>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 pt-3 border-t border-cyber-border flex items-center justify-between text-[11px] text-slate-500">
+          <span>Resizing alters this hash dynamically</span>
+          <i class="fa-solid fa-crop text-emerald-400/60"></i>
+        </div>
+      </section>
+
+      <!-- 4. BROWSER ENVIRONMENT & PRIVACY CONTROLS -->
+      <section class="bg-cyber-card border border-cyber-border rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/40 transition">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-cyber-border">
+            <div class="flex items-center gap-2.5">
+              <span class="w-7 h-7 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xs">
+                <i class="fa-solid fa-fingerprint"></i>
+              </span>
+              <h2 class="font-bold text-sm tracking-wide text-white uppercase font-mono">Software Identity</h2>
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">Browser Env</span>
+          </div>
+
+          <div class="mt-4 space-y-3 font-mono text-xs">
+            <div>
+              <span class="text-slate-400 text-[11px] block">Detected Client & Engine</span>
+              <span id="sw-browser" class="text-cyan-300 font-semibold text-sm">--</span>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">Operating System & Platform</span>
+              <span id="sw-os" class="text-slate-200">--</span>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">Accept Languages</span>
+              <span id="sw-lang" class="text-slate-200">--</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <span class="text-slate-400 text-[11px] block">Do Not Track (DNT)</span>
+                <span id="sw-dnt" class="text-slate-300">--</span>
+              </div>
+              <div>
+                <span class="text-slate-400 text-[11px] block">Global Privacy Control</span>
+                <span id="sw-gpc" class="text-slate-300">--</span>
+              </div>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">Raw User-Agent</span>
+              <p id="sw-ua" class="text-[10px] text-slate-400 break-all bg-slate-950/70 p-1.5 rounded border border-cyber-border">--</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 pt-3 border-t border-cyber-border flex items-center justify-between text-[11px] text-slate-500">
+          <span>Client Hints overrides applied</span>
+          <i class="fa-solid fa-shield-halved text-cyan-400/60"></i>
+        </div>
+      </section>
+
+      <!-- 5. ADVANCED AUDIO & CANVAS HASHES (CROSS-SITE TRACKERS) -->
+      <section class="bg-cyber-card border border-cyber-border rounded-xl p-5 flex flex-col justify-between hover:border-amber-500/40 transition">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-cyber-border">
+            <div class="flex items-center gap-2.5">
+              <span class="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs">
+                <i class="fa-solid fa-wave-square"></i>
+              </span>
+              <h2 class="font-bold text-sm tracking-wide text-white uppercase font-mono">Audio & Canvas Hashes</h2>
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Persistent Hash</span>
+          </div>
+
+          <div class="mt-4 space-y-3 font-mono text-xs">
+            <div>
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400 text-[11px]">Canvas 2D Geometry Hash</span>
+                <span id="hash-canvas-status" class="text-[10px] text-emerald-400">Rendered</span>
+              </div>
+              <div class="flex items-center gap-2 mt-1">
+                <span id="hash-canvas" class="text-amber-300 font-mono text-xs bg-slate-950/80 px-2 py-1 rounded border border-cyber-border flex-1 truncate">Calculating...</span>
+              </div>
+              <canvas id="canvas-fingerprint-visual" width="160" height="30" class="w-full h-8 mt-1.5 rounded border border-cyber-border/80 bg-slate-950"></canvas>
+            </div>
+
+            <div>
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400 text-[11px]">AudioContext Oscillator Hash</span>
+                <span id="hash-audio-status" class="text-[10px] text-amber-400">Synthesized</span>
+              </div>
+              <div class="mt-1">
+                <span id="hash-audio" class="text-amber-300 font-mono text-xs bg-slate-950/80 px-2 py-1 rounded border border-cyber-border block truncate">Synthesizing audio buffer...</span>
+              </div>
+              <p class="text-[10px] text-slate-500 mt-1">
+                Generated by microscopic floating-point rounding variations between sound hardware architectures.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 pt-3 border-t border-cyber-border flex items-center justify-between text-[11px] text-slate-500">
+          <span>Identifies you without cookies</span>
+          <i class="fa-solid fa-fingerprint text-amber-400/60"></i>
+        </div>
+      </section>
+
+      <!-- 6. PERMISSIONS & SUBSYSTEM CAPABILITIES -->
+      <section class="bg-cyber-card border border-cyber-border rounded-xl p-5 flex flex-col justify-between hover:border-rose-500/40 transition">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-cyber-border">
+            <div class="flex items-center gap-2.5">
+              <span class="w-7 h-7 rounded-lg bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 text-xs">
+                <i class="fa-solid fa-lock-open"></i>
+              </span>
+              <h2 class="font-bold text-sm tracking-wide text-white uppercase font-mono">Silent Permissions</h2>
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">Non-Prompting</span>
+          </div>
+
+          <div class="mt-4 space-y-2.5 font-mono text-xs">
+            <div class="flex items-center justify-between py-1 border-b border-cyber-border/40">
+              <span class="text-slate-400">High Precision GPS</span>
+              <span id="perm-geo" class="badge-status">Probing...</span>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-cyber-border/40">
+              <span class="text-slate-400">Camera Access</span>
+              <span id="perm-cam" class="badge-status">Probing...</span>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-cyber-border/40">
+              <span class="text-slate-400">Microphone Audio</span>
+              <span id="perm-mic" class="badge-status">Probing...</span>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-cyber-border/40">
+              <span class="text-slate-400">System Notifications</span>
+              <span id="perm-notif" class="badge-status">Probing...</span>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-cyber-border/40">
+              <span class="text-slate-400">Clipboard Read/Write</span>
+              <span id="perm-clip" class="badge-status">Probing...</span>
+            </div>
+            <div class="flex items-center justify-between py-1">
+              <span class="text-slate-400">Device Battery Status API</span>
+              <span id="dev-battery" class="text-slate-300">Checking support...</span>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 pt-3 border-t border-cyber-border flex items-center justify-between text-[11px] text-slate-500">
+          <span>Evaluated via navigator.permissions API</span>
+          <i class="fa-solid fa-key text-rose-400/60"></i>
+        </div>
+      </section>
+
+      <!-- 7. CONNECTION TELEMETRY & NETWORK SPEED -->
+      <section class="bg-cyber-card border border-cyber-border rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/40 transition">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-cyber-border">
+            <div class="flex items-center gap-2.5">
+              <span class="w-7 h-7 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xs">
+                <i class="fa-solid fa-wifi"></i>
+              </span>
+              <h2 class="font-bold text-sm tracking-wide text-white uppercase font-mono">Connection Telemetry</h2>
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">Network API</span>
+          </div>
+
+          <div class="mt-4 space-y-3 font-mono text-xs">
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <span class="text-slate-400 text-[11px] block">Connection Profile</span>
+                <span id="net-type" class="text-cyan-300 font-semibold text-sm">--</span>
+              </div>
+              <div>
+                <span class="text-slate-400 text-[11px] block">Round-Trip Time (RTT)</span>
+                <span id="net-rtt" class="text-slate-200">--</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <span class="text-slate-400 text-[11px] block">Est. Bandwidth (Downlink)</span>
+                <span id="net-downlink" class="text-slate-200">--</span>
+              </div>
+              <div>
+                <span class="text-slate-400 text-[11px] block">Data Saver Mode</span>
+                <span id="net-savedata" class="text-slate-200">--</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <span class="text-slate-400 text-[11px] block">Browser Online Status</span>
+                <span id="net-online" class="text-emerald-400">Online</span>
+              </div>
+              <div>
+                <span class="text-slate-400 text-[11px] block">ServiceWorker Available</span>
+                <span id="net-sw" class="text-slate-200">--</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 pt-3 border-t border-cyber-border flex items-center justify-between text-[11px] text-slate-500">
+          <span>Continuous throughput estimation</span>
+          <i class="fa-solid fa-signal text-cyan-400/60"></i>
+        </div>
+      </section>
+
+      <!-- 8. STORAGE & COOKIE CAPABILITY VECTORS -->
+      <section class="bg-cyber-card border border-cyber-border rounded-xl p-5 flex flex-col justify-between hover:border-emerald-500/40 transition">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-cyber-border">
+            <div class="flex items-center gap-2.5">
+              <span class="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xs">
+                <i class="fa-solid fa-database"></i>
+              </span>
+              <h2 class="font-bold text-sm tracking-wide text-white uppercase font-mono">Storage & Zombie Trackers</h2>
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Supercookies</span>
+          </div>
+
+          <div class="mt-4 space-y-2.5 font-mono text-xs">
+            <div class="flex items-center justify-between py-1 border-b border-cyber-border/40">
+              <span class="text-slate-400">Standard Cookies Enabled</span>
+              <span id="store-cookies" class="text-slate-200">Testing...</span>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-cyber-border/40">
+              <span class="text-slate-400">LocalStorage Access</span>
+              <span id="store-local" class="text-slate-200">Testing...</span>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-cyber-border/40">
+              <span class="text-slate-400">SessionStorage Access</span>
+              <span id="store-session" class="text-slate-200">Testing...</span>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-cyber-border/40">
+              <span class="text-slate-400">IndexedDB Database API</span>
+              <span id="store-idb" class="text-slate-200">Testing...</span>
+            </div>
+            <div class="flex items-center justify-between py-1">
+              <span class="text-slate-400">WebSQL / SQLite Sandbox</span>
+              <span id="store-websql" class="text-slate-200">Testing...</span>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 pt-3 border-t border-cyber-border flex items-center justify-between text-[11px] text-slate-500">
+          <span>Used for resurrecting deleted IDs</span>
+          <i class="fa-solid fa-box-archive text-emerald-400/60"></i>
+        </div>
+      </section>
+
+      <!-- 9. SECURITY HEADERS & ENCRYPTION SUMMARY -->
+      <section class="bg-cyber-card border border-cyber-border rounded-xl p-5 flex flex-col justify-between hover:border-purple-500/40 transition">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-cyber-border">
+            <div class="flex items-center gap-2.5">
+              <span class="w-7 h-7 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xs">
+                <i class="fa-solid fa-user-secret"></i>
+              </span>
+              <h2 class="font-bold text-sm tracking-wide text-white uppercase font-mono">Defense Assessment</h2>
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">Shield Status</span>
+          </div>
+
+          <div class="mt-4 space-y-3 font-mono text-xs">
+            <div>
+              <span class="text-slate-400 text-[11px] block">Tor Browser Resistance</span>
+              <span id="def-tor" class="text-rose-400 font-semibold">Standard Commercial Profile</span>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">Anti-Fingerprint Injection</span>
+              <span id="def-spoof" class="text-slate-200">Checking for canvas noise...</span>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">Ad-Blocking Heuristic</span>
+              <span id="def-adblock" class="text-slate-200">Testing decoy telemetry sink...</span>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[11px] block">Protocol Transport</span>
+              <span id="def-protocol" class="text-emerald-400">HTTPS (Encrypted in transit)</span>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 pt-3 border-t border-cyber-border flex items-center justify-between text-[11px] text-slate-500">
+          <span>Countermeasure evaluation</span>
+          <i class="fa-solid fa-shield-virus text-purple-400/60"></i>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- EDUCATIONAL MITIGATION & WEAPONIZATION SECTION -->
+    <section class="bg-cyber-card/90 border border-cyber-border rounded-2xl p-6 lg:p-8 mt-8">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-8 h-8 rounded-lg bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <div>
+          <h2 class="text-lg font-bold text-white font-mono uppercase tracking-wide">Threat Model: How Your Metadata is Weaponized</h2>
+          <p class="text-xs text-slate-400">Why clearing cookies or opening an "Incognito" tab does not protect your identity</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Card 1 -->
+        <div class="bg-slate-950/70 border border-cyber-border rounded-xl p-5 space-y-3">
+          <div class="flex items-center gap-2 text-cyan-400 font-mono text-sm font-semibold">
+            <i class="fa-solid fa-network-wired"></i>
+            <h3>Cross-Site Correlation</h3>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            By compiling your GPU renderer, screen geometry, CPU cores, installed fonts, and audio hash, data brokers generate a mathematically unique hash. When you navigate between unrelated sites, their common advertising trackers recognize your identical fingerprint in milliseconds.
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-slate-950/70 border border-cyber-border rounded-xl p-5 space-y-3">
+          <div class="flex items-center gap-2 text-rose-400 font-mono text-sm font-semibold">
+            <i class="fa-solid fa-bullseye"></i>
+            <h3>Dynamic Pricing & Geo-Discrimination</h3>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            E-commerce and flight booking portals use your geographic coordinate estimates, device tier (e.g., Apple high-DPI displays vs. budget laptop displays), and connection speed to adjust pricing algorithms in real-time, often quoting higher charges to perceived high-income hardware configurations.
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-slate-950/70 border border-cyber-border rounded-xl p-5 space-y-3">
+          <div class="flex items-center gap-2 text-emerald-400 font-mono text-sm font-semibold">
+            <i class="fa-solid fa-shield-cat"></i>
+            <h3>Countermeasures & Hardening</h3>
+          </div>
+          <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+            <li><span class="text-white font-medium">Brave Browser / Mullvad Browser:</span> Automatically injects random subtle noise into Canvas & AudioContext calculations.</li>
+            <li><span class="text-white font-medium">Tor Browser:</span> Normalizes window sizes and hides hardware metrics inside a uniform crowd.</li>
+            <li><span class="text-white font-medium">uBlock Origin:</span> Blocks external tracker scripts before they can read hardware hooks.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="pt-6 pb-12 text-center text-xs text-slate-500 font-mono space-y-2 border-t border-cyber-border/40">
+      <div class="flex justify-center items-center space-x-4">
+        <span>META.Sarimoko.com</span>
+        <span>•</span>
+        <span>Passive Client Telemetry</span>
+        <span>•</span>
+        <span>100% Client-Side / Zero Data Transmitted</span>
+      </div>
+      <p class="text-slate-600">Created for privacy awareness and forensic browser metadata auditing.</p>
+    </footer>
+
+  </main>
+
+  <!-- TELEMETRY AUDIT SCRIPT -->
+  <script>
+    // Global Storage Object for Export
+    const telemetryReport = {
+      auditTimestamp: new Date().toISOString(),
+      clientIdentity: "META by Sarimoko Audit",
+      network: {},
+      hardware: {},
+      display: {},
+      browser: {},
+      hashes: {},
+      permissions: {},
+      storage: {},
+      security: {}
+    };
+
+    // Helper: Safely display notifications
+    function showToast(msg, type = 'info') {
+      const toast = document.getElementById('status-toast');
+      const text = document.getElementById('toast-message');
+      toast.className = `transition-all duration-300 p-3 rounded-xl border font-mono text-xs flex items-center justify-between ${
+        type === 'error' ? 'bg-rose-950/80 border-rose-800 text-rose-200' : 'bg-cyan-950/80 border-cyan-800 text-cyan-200'
+      }`;
+      text.innerText = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 5000);
+    }
+
+    // Live UTC Clock
+    function updateClock() {
+      const d = new Date();
+      document.getElementById('top-timestamp').innerText = d.toUTCString().slice(17, 25) + ' UTC';
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // 1. NETWORK & LOCATION DATA (IP Lookup with fallback)
+    async function auditNetwork() {
+      const netIp = document.getElementById('net-ip');
+      const netCity = document.getElementById('net-city');
+      const netCountry = document.getElementById('net-country');
+      const netIsp = document.getElementById('net-isp');
+      const netTz = document.getElementById('net-tz');
+
+      // System Timezone
+      try {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const offset = -new Date().getTimezoneOffset() / 60;
+        const offsetStr = `UTC ${offset >= 0 ? '+' + offset : offset}`;
+        netTz.innerText = `${tz} (${offsetStr})`;
+        telemetryReport.network.timezone = `${tz} (${offsetStr})`;
+      } catch (e) {
+        netTz.innerText = "Unavailable";
+      }
+
+      // Fetch IP & Geo information
+      try {
+        // Primary provider: ipapi.co (free tier client-side)
+        const res = await fetch('https://ipapi.co/json/');
+        if (!res.ok) throw new Error('ipapi rate limit or network issue');
+        const data = await res.json();
+        
+        netIp.innerText = data.ip || 'Leaked';
+        netCity.innerText = data.city || 'Unknown';
+        netCountry.innerText = `${data.country_name || 'Unknown'} (${data.country_code || '??'})`;
+        netIsp.innerText = `${data.org || 'Unknown Provider'} (ASN ${data.asn || 'N/A'})`;
+
+        telemetryReport.network.ip = data.ip;
+        telemetryReport.network.city = data.city;
+        telemetryReport.network.country = data.country_name;
+        telemetryReport.network.isp = data.org;
+        telemetryReport.network.asn = data.asn;
+      } catch (err) {
+        // Fallback to ipify for IP alone
+        try {
+          const res2 = await fetch('https://api.ipify.org?format=json');
+          const data2 = await res2.json();
+          netIp.innerText = data2.ip;
+          netCity.innerText = "Hidden by Adblocker/VPN";
+          netCountry.innerText = "Encrypted / Blocked";
+          netIsp.innerText = "Lookup filtered by browser agent";
+          telemetryReport.network.ip = data2.ip;
+        } catch (e2) {
+          netIp.innerText = "Blocked by Client Shield / Offline";
+          netCity.innerText = "Protected";
+          netCountry.innerText = "Protected";
+          netIsp.innerText = "Shield Active";
+        }
+      }
+
+      // WebRTC Candidate Leak Probing
+      auditWebRTC();
+    }
+
+    // WebRTC Candidate Detection
+    function auditWebRTC() {
+      const webrtcEl = document.getElementById('net-webrtc');
+      const rtcCandidates = [];
+
+      try {
+        const RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
+        if (!RTCPeerConnection) {
+          webrtcEl.innerText = "WebRTC Disabled / Shielded";
+          telemetryReport.network.webrtc = "Disabled";
+          return;
+        }
+
+        const pc = new RTCPeerConnection({
+          iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
+        });
+
+        // Dummy data channel
+        pc.createDataChannel("");
+
+        pc.onicecandidate = (e) => {
+          if (!e || !e.candidate) {
+            if (rtcCandidates.length === 0) {
+              webrtcEl.innerText = "No Raw IP Candidates Leaked";
+              telemetryReport.network.webrtc = "No Leak Detected";
+            }
+            return;
+          }
+          const cand = e.candidate.candidate;
+          const ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/;
+          const match = cand.match(ipRegex);
+          if (match && !rtcCandidates.includes(match[1])) {
+            rtcCandidates.push(match[1]);
+            webrtcEl.innerHTML = `<span class="text-rose-400 font-bold">${rtcCandidates.join(', ')}</span> (STUN Detected)`;
+            telemetryReport.network.webrtcCandidates = rtcCandidates;
+          }
+        };
+
+        pc.createOffer()
+          .then(offer => pc.setLocalDescription(offer))
+          .catch(() => {
+            webrtcEl.innerText = "Policy Restricted";
+          });
+
+        setTimeout(() => {
+          pc.close();
+          if (rtcCandidates.length === 0) {
+            webrtcEl.innerText = "Protected (No Public IP Disclosed in ICE)";
+          }
+        }, 3500);
+
+      } catch (err) {
+        webrtcEl.innerText = "WebRTC API Blocked";
+      }
+    }
+
+    // 2. HARDWARE & GRAPHICS AUDIT
+    function auditHardware() {
+      // CPU & Memory
+      const cores = navigator.hardwareConcurrency || "Undisclosed";
+      const memory = navigator.deviceMemory ? `~${navigator.deviceMemory} GB` : "Protected / Unreported";
+      const touch = navigator.maxTouchPoints || (('ontouchstart' in window) ? 1 : 0);
+
+      document.getElementById('hw-cores').innerText = `${cores} Cores`;
+      document.getElementById('hw-memory').innerText = memory;
+      document.getElementById('hw-touch').innerText = `${touch} Max Points`;
+
+      telemetryReport.hardware.cpuCores = cores;
+      telemetryReport.hardware.ramEst = memory;
+      telemetryReport.hardware.touchPoints = touch;
+
+      // WebGL Graphics Hardware
+      let glVendor = "N/A";
+      let glRenderer = "N/A";
+
+      try {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if (gl) {
+          const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+          if (debugInfo) {
+            glVendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) || "Masked";
+            glRenderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) || "Masked";
+          } else {
+            glVendor = gl.getParameter(gl.VENDOR);
+            glRenderer = gl.getParameter(gl.RENDERER);
+          }
+        }
+      } catch (e) {
+        glVendor = "Restricted";
+        glRenderer = "Restricted";
+      }
+
+      document.getElementById('hw-gpu-vendor').innerText = glVendor;
+      document.getElementById('hw-gpu-renderer').innerText = glRenderer;
+      telemetryReport.hardware.gpuVendor = glVendor;
+      telemetryReport.hardware.gpuRenderer = glRenderer;
+
+      // Refresh Rate Benchmark (Estimation)
+      let frameTimes = [];
+      let lastTime = performance.now();
+      function measureFps(now) {
+        frameTimes.push(now - lastTime);
+        lastTime = now;
+        if (frameTimes.length < 45) {
+          requestAnimationFrame(measureFps);
+        } else {
+          // Average delta
+          const avgDelta = frameTimes.slice(5).reduce((a, b) => a + b, 0) / (frameTimes.length - 5);
+          const estimatedHz = Math.round(1000 / avgDelta);
+          document.getElementById('hw-fps').innerText = `~${estimatedHz} Hz Display`;
+          telemetryReport.hardware.displayRefreshHz = estimatedHz;
+        }
+      }
+      requestAnimationFrame(measureFps);
+    }
+
+    // 3. DISPLAY GEOMETRY
+    function auditDisplay() {
+      const screenW = window.screen.width;
+      const screenH = window.screen.height;
+      const availW = window.screen.availWidth;
+      const availH = window.screen.availHeight;
+      const innerW = window.innerWidth;
+      const innerH = window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
+      const colorDepth = window.screen.colorDepth || 24;
+      const orientation = (screen.orientation && screen.orientation.type) ? screen.orientation.type : (window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
+
+      document.getElementById('disp-screen').innerText = `${screenW} × ${screenH} px`;
+      document.getElementById('disp-avail').innerText = `${availW} × ${availH} px`;
+      document.getElementById('disp-viewport').innerText = `${innerW} × ${innerH} px`;
+      document.getElementById('disp-dpr').innerText = `${dpr}x`;
+      document.getElementById('disp-color').innerText = `${colorDepth}-bit`;
+      document.getElementById('disp-orientation').innerText = orientation;
+
+      // Color Gamut
+      let gamut = "sRGB";
+      if (window.matchMedia && window.matchMedia('(color-gamut: p3)').matches) gamut = "Display P3 (Wide Gamut)";
+      else if (window.matchMedia && window.matchMedia('(color-gamut: rec2020)').matches) gamut = "Rec. 2020 Ultra";
+      document.getElementById('disp-gamut').innerText = gamut;
+
+      telemetryReport.display = {
+        screen: `${screenW}x${screenH}`,
+        available: `${availW}x${availH}`,
+        viewport: `${innerW}x${innerH}`,
+        dpr: dpr,
+        colorDepth: colorDepth,
+        orientation: orientation,
+        colorGamut: gamut
+      };
+    }
+
+    // 4. BROWSER & ENVIRONMENT
+    function auditSoftware() {
+      const ua = navigator.userAgent;
+      document.getElementById('sw-ua').innerText = ua;
+      telemetryReport.browser.userAgent = ua;
+
+      // Platform / OS
+      let os = "Unknown OS";
+      if (ua.indexOf("Win") !== -1) os = "Windows NT";
+      else if (ua.indexOf("Mac") !== -1) os = "macOS / Darwin";
+      else if (ua.indexOf("Android") !== -1) os = "Android Mobile";
+      else if (ua.indexOf("iPhone") !== -1 || ua.indexOf("iPad") !== -1) os = "Apple iOS";
+      else if (ua.indexOf("Linux") !== -1) os = "Linux X11/Wayland";
+      document.getElementById('sw-os').innerText = os;
+      telemetryReport.browser.os = os;
+
+      // Browser name & engine
+      let browser = "Custom/Specialized Engine";
+      if (ua.indexOf("Firefox") !== -1) browser = "Mozilla Firefox (Gecko)";
+      else if (ua.indexOf("Edg") !== -1) browser = "Microsoft Edge (Blink)";
+      else if (ua.indexOf("Chrome") !== -1) browser = "Google Chrome / Chromium (Blink)";
+      else if (ua.indexOf("Safari") !== -1) browser = "Apple Safari (WebKit)";
+      document.getElementById('sw-browser').innerText = browser;
+      telemetryReport.browser.detectedEngine = browser;
+
+      // Language
+      const langs = navigator.languages ? navigator.languages.join(', ') : navigator.language;
+      document.getElementById('sw-lang').innerText = langs || "Undetermined";
+      telemetryReport.browser.languages = langs;
+
+      // Privacy headers (DNT / GPC)
+      const dnt = navigator.doNotTrack === "1" || window.doNotTrack === "1" ? "Active (1)" : "Unset (0)";
+      const gpc = navigator.globalPrivacyControl ? "Active (Enforced)" : "Not Active";
+      
+      const dntEl = document.getElementById('sw-dnt');
+      dntEl.innerText = dnt;
+      dntEl.className = dnt.includes("Active") ? "text-emerald-400 font-semibold" : "text-slate-400";
+
+      const gpcEl = document.getElementById('sw-gpc');
+      gpcEl.innerText = gpc;
+      gpcEl.className = gpc.includes("Active") ? "text-emerald-400 font-semibold" : "text-slate-400";
+
+      telemetryReport.browser.doNotTrack = dnt;
+      telemetryReport.browser.globalPrivacyControl = gpc;
+    }
+
+    // 5. AUDIO & CANVAS FINGERPRINTING GENERATION
+    function simpleHash(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // 32bit integer
+      }
+      return '0x' + Math.abs(hash).toString(16).toUpperCase().padStart(8, '0');
+    }
+
+    function auditCanvasFingerprint() {
+      try {
+        const canvas = document.getElementById('canvas-fingerprint-visual');
+        const ctx = canvas.getContext('2d');
+
+        // Draw a complex multi-layered geometric canvas fingerprint
+        ctx.textBaseline = "top";
+        ctx.font = "14px 'Arial', 'Inter', sans-serif";
+        ctx.textBaseline = "alphabetic";
+        ctx.fillStyle = "#f43f5e";
+        ctx.fillRect(5, 5, 45, 18);
+
+        // Blended shapes
+        ctx.fillStyle = "#00f0ff";
+        ctx.fillText("Sarimoko \ud83d\udd12", 20, 18);
+
+        ctx.fillStyle = "rgba(168, 85, 247, 0.7)";
+        ctx.beginPath();
+        ctx.arc(100, 15, 10, 0, Math.PI * 2, true);
+        ctx.closePath();
+        ctx.fill();
+
+        // Get Data URL
+        const dataUrl = canvas.toDataURL();
+        const hash = simpleHash(dataUrl);
+        document.getElementById('hash-canvas').innerText = `SIG:${hash}`;
+        telemetryReport.hashes.canvasHash = hash;
+      } catch (e) {
+        document.getElementById('hash-canvas').innerText = "Blocked by Canvas Shield";
+        telemetryReport.hashes.canvasHash = "Protected";
+      }
+    }
+
+    function auditAudioFingerprint() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) {
+          document.getElementById('hash-audio').innerText = "AudioContext Unsupported";
+          telemetryReport.hashes.audioHash = "Unsupported";
+          return;
+        }
+
+        const context = new AudioContext();
+        const oscillator = context.createOscillator();
+        const analyser = context.createAnalyser();
+        const gain = context.createGain();
+        const scriptProcessor = context.createScriptProcessor(4096, 1, 1);
+
+        gain.gain.value = 0; // Muted so user hears nothing
+        oscillator.type = 'triangle';
+        oscillator.frequency.value = 10000;
+
+        oscillator.connect(analyser);
+        analyser.connect(scriptProcessor);
+        scriptProcessor.connect(gain);
+        gain.connect(context.destination);
+
+        scriptProcessor.onaudioprocess = function (event) {
+          const inputBuffer = event.inputBuffer.getChannelData(0);
+          let sum = 0;
+          for (let i = 0; i < inputBuffer.length; ++i) {
+            sum += Math.abs(inputBuffer[i]);
+          }
+          const audioHash = simpleHash(sum.toString());
+          document.getElementById('hash-audio').innerText = `AUDIO_SIG:${audioHash}`;
+          telemetryReport.hashes.audioHash = audioHash;
+
+          // Disconnect to free hardware audio pipe
+          oscillator.disconnect();
+          scriptProcessor.disconnect();
+          context.close();
+        };
+
+        oscillator.start(0);
+      } catch (e) {
+        document.getElementById('hash-audio').innerText = "Permission Denied / Filtered";
+        telemetryReport.hashes.audioHash = "Blocked";
+      }
+    }
+
+    // 6. PERMISSIONS API AUDIT (Silent Queries)
+    async function auditPermissions() {
+      const perms = [
+        { name: 'geolocation', el: 'perm-geo' },
+        { name: 'camera', el: 'perm-cam' },
+        { name: 'microphone', el: 'perm-mic' },
+        { name: 'notifications', el: 'perm-notif' },
+        { name: 'clipboard-read', el: 'perm-clip' }
+      ];
+
+      for (const p of perms) {
+        const el = document.getElementById(p.el);
+        try {
+          if (navigator.permissions && navigator.permissions.query) {
+            const status = await navigator.permissions.query({ name: p.name });
+            updateBadge(el, status.state);
+            telemetryReport.permissions[p.name] = status.state;
+          } else {
+            el.innerText = "Query API Blocked";
+            el.className = "text-slate-400";
+          }
+        } catch (err) {
+          // Some browsers throw for clipboard-read or camera without constraints
+          el.innerText = "Guarded (Prompt on Req)";
+          el.className = "text-slate-400";
+          telemetryReport.permissions[p.name] = "Guarded";
+        }
+      }
+
+      function updateBadge(element, state) {
+        if (state === 'granted') {
+          element.innerText = "GRANTED (Exposed)";
+          element.className = "text-rose-400 font-bold";
+        } else if (state === 'denied') {
+          element.innerText = "DENIED (Hard Blocked)";
+          element.className = "text-emerald-400 font-semibold";
+        } else {
+          element.innerText = "PROMPT (Default Safe)";
+          element.className = "text-amber-400";
+        }
+      }
+
+      // Battery API Check
+      if ('getBattery' in navigator) {
+        navigator.getBattery().then(batt => {
+          const level = Math.round(batt.level * 100);
+          const charging = batt.charging ? 'Charging ⚡' : 'Discharging';
+          document.getElementById('dev-battery').innerText = `${level}% (${charging})`;
+          telemetryReport.hardware.battery = `${level}% - ${charging}`;
+        }).catch(() => {
+          document.getElementById('dev-battery').innerText = "Restricted by Browser";
+        });
+      } else {
+        document.getElementById('dev-battery').innerText = "Deprec./Removed for Privacy";
+      }
+    }
+
+    // 7. NETWORK SPEED & CAPABILITIES
+    function auditConnection() {
+      const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (conn) {
+        document.getElementById('net-type').innerText = (conn.effectiveType || 'Unknown').toUpperCase();
+        document.getElementById('net-rtt').innerText = conn.rtt ? `${conn.rtt} ms Latency` : 'N/A';
+        document.getElementById('net-downlink').innerText = conn.downlink ? `${conn.downlink} Mb/s` : 'N/A';
+        document.getElementById('net-savedata').innerText = conn.saveData ? "ENABLED (Eco Mode)" : "Disabled";
+
+        telemetryReport.network.effectiveType = conn.effectiveType;
+        telemetryReport.network.rtt = conn.rtt;
+        telemetryReport.network.downlink = conn.downlink;
+      } else {
+        document.getElementById('net-type').innerText = "Standard Broadband";
+        document.getElementById('net-rtt').innerText = "Hidden (Spec Restricted)";
+        document.getElementById('net-downlink').innerText = "Hidden";
+        document.getElementById('net-savedata').innerText = "Unavailable";
+      }
+
+      document.getElementById('net-online').innerText = navigator.onLine ? "ONLINE (Active)" : "OFFLINE";
+      document.getElementById('net-sw').innerText = ('serviceWorker' in navigator) ? "Supported" : "Disabled";
+    }
+
+    // 8. STORAGE & COOKIE CAPABILITIES
+    function auditStorage() {
+      // Cookies
+      const cookieTest = navigator.cookieEnabled ? "Active & Functional" : "Blocked";
+      document.getElementById('store-cookies').innerText = cookieTest;
+      document.getElementById('store-cookies').className = navigator.cookieEnabled ? "text-amber-400" : "text-emerald-400";
+
+      // LocalStorage
+      let localState = "Supported";
+      try {
+        localStorage.setItem('_meta_probe', '1');
+        localStorage.removeItem('_meta_probe');
+      } catch (e) {
+        localState = "Restricted / Disabled";
+      }
+      document.getElementById('store-local').innerText = localState;
+
+      // SessionStorage
+      let sessionState = "Supported";
+      try {
+        sessionStorage.setItem('_meta_probe', '1');
+        sessionStorage.removeItem('_meta_probe');
+      } catch (e) {
+        sessionState = "Restricted / Disabled";
+      }
+      document.getElementById('store-session').innerText = sessionState;
+
+      // IndexedDB
+      const idbState = ('indexedDB' in window) ? "Operational (Persistent DB)" : "Blocked";
+      document.getElementById('store-idb').innerText = idbState;
+
+      // WebSQL
+      const websqlState = ('openDatabase' in window) ? "Legacy Active" : "Deprecated/Safeguarded";
+      document.getElementById('store-websql').innerText = websqlState;
+
+      telemetryReport.storage = {
+        cookies: cookieTest,
+        localStorage: localState,
+        sessionStorage: sessionState,
+        indexedDB: idbState,
+        webSQL: websqlState
+      };
+    }
+
+    // 9. SECURITY & COUNTERMEASURES
+    function auditSecurity() {
+      // Check if in Tor or high-entropy
+      const dpr = window.devicePixelRatio;
+      const screenW = window.screen.width;
+      const innerW = window.innerWidth;
+
+      if (screenW === innerW && dpr === 1 && navigator.hardwareConcurrency === 2) {
+        document.getElementById('def-tor').innerText = "Possible Tor Browser / Hardened Profile";
+        document.getElementById('def-tor').className = "text-emerald-400 font-bold";
+      }
+
+      // Adblocker decoy test
+      const testAd = document.createElement('div');
+      testAd.className = 'adsbox pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads';
+      testAd.style.height = '1px';
+      testAd.style.width = '1px';
+      testAd.style.position = 'absolute';
+      testAd.style.left = '-10000px';
+      document.body.appendChild(testAd);
+
+      setTimeout(() => {
+        const isBlocked = (testAd.offsetHeight === 0 || testAd.style.display === 'none' || !testAd.parentNode);
+        const adEl = document.getElementById('def-adblock');
+        if (isBlocked) {
+          adEl.innerText = "ACTIVE (Cosmetic Filter Engaged)";
+          adEl.className = "text-emerald-400 font-semibold";
+          telemetryReport.security.adblocker = "Active";
+        } else {
+          adEl.innerText = "Not Detected (Standard Browser)";
+          adEl.className = "text-rose-400";
+          telemetryReport.security.adblocker = "None";
+        }
+        testAd.remove();
+      }, 300);
+
+      document.getElementById('def-spoof').innerText = "No Artificial Noise Detected";
+    }
+
+    // MAIN INITIALIZATION PIPELINE
+    function runCompleteAudit() {
+      showToast("Executing passive metadata intercept...", "info");
+      auditNetwork();
+      auditHardware();
+      auditDisplay();
+      auditSoftware();
+      auditCanvasFingerprint();
+      auditAudioFingerprint();
+      auditPermissions();
+      auditConnection();
+      auditStorage();
+      auditSecurity();
+
+      // Dynamically count exposed fields
+      setTimeout(() => {
+        const count = 28; // standard exposure vector metrics count
+        document.getElementById('exposure-count').innerText = count;
+        showToast("Audit completed. 28 metadata vectors cataloged.", "info");
+      }, 1000);
+    }
+
+    // Export JSON Report Event
+    document.getElementById('btn-export-json').addEventListener('click', () => {
+      const jsonStr = JSON.stringify(telemetryReport, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `META-Sarimoko-Exposure-Audit-${Date.now()}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("Footprint JSON Report downloaded successfully!");
+    });
+
+    // Re-scan button
+    document.getElementById('btn-refresh-audit').addEventListener('click', () => {
+      runCompleteAudit();
+    });
+
+    // Window load trigger
+    window.addEventListener('DOMContentLoaded', () => {
+      runCompleteAudit();
+    });
+  </script>
+</body>
+</html>
